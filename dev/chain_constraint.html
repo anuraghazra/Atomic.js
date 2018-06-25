@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Atomic.js</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    canvas {
+      outline: 1px solid black;
+    }
+  </style>
+
+</head>
+
+<body>
+  <canvas id="c"></canvas>
+
+  <!-- function createRope(opt) {
+    let vertices = {};
+    let cons = [];
+    let cIndex = 0;
+    let y = opt.y,
+        x = opt.x;
+    for (let i = 0; i < opt.segs; i++) {
+      x += (opt.gap || 20);
+      vertices[i] = { x: x, y: y };
+      cIndex = (cIndex + 1) % opt.segs;
+      cons.push([
+        i, cIndex, true
+      ]);
+    }
+    cons.pop();
+    let rope = new atomic.Body({
+      mass: 1,
+      vertices: vertices,
+      constraints: cons
+    }, atomic);
+
+    atomic.bodies.push(rope);
+  } -->
+
+  <!-- scripts -->
+  <script src="../src/js/Vector.js"></script>
+  <script src="../lib/atomic/Atomic.js"></script>
+  <script src="./scripts/chain_constraint.js"></script>
+
+</body>
+
+</html>
