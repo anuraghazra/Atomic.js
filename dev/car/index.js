@@ -1,4 +1,4 @@
-const atomic = new Atomic('#c', window.innerWidth, 350, 1, 1, 20);
+const atomic = new Atomic('#c', window.innerWidth, 350, 1, 1, 80);
 
 atomic.Poly.box(100, 130, 150, 40, {
   mass : 10,
@@ -64,8 +64,10 @@ function animate() {
   atomic.Render.lines();
   // atomic.Render.indexOfBodies();
   // atomic.Render.pointIndex();
+  atomic.Render.boundingBox();
 
-  atomic.dragVertex && atomic.drag();
+  atomic.showFps();
+  atomic.drag();
 
 }
 animate();
