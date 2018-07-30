@@ -1,3 +1,14 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const Atomic = require('./src/lib/atomic/Atomic');
+
+window.Atomic = Atomic;
+},{"./src/lib/atomic/Atomic":2}],2:[function(require,module,exports){
+const Vector = require('./Vector');
+const Body = require('./Body');
+const Vertex = require('./Vertex');
+const Constraint = require('./Constraint');
+const Collision = require('./Collision');
+
 /**
  * Atomic.js
  * @description Greatly Simple 2D Physics Engine
@@ -639,6 +650,16 @@ Atomic.prototype.showFps = function (option) {
 
   return this.fpsScope.fps;
 }
+
+Atomic.Constraint = Constraint;
+Atomic.Vertex = Vertex;
+
+module.exports = Atomic;
+},{"./Body":3,"./Collision":4,"./Constraint":5,"./Vector":6,"./Vertex":7}],3:[function(require,module,exports){
+const Vector = require('./Vector');
+const Constraint = require('./Constraint');
+const Vertex = require('./Vertex');
+
 /**
  * @class Body
  * @constructor Body
@@ -836,6 +857,11 @@ Body.prototype.drag = function () {
     this.engine.dragVertex = null;
   }
 }
+
+module.exports = Body;
+},{"./Constraint":5,"./Vector":6,"./Vertex":7}],4:[function(require,module,exports){
+const Vector = require('./Vector');
+
 /**
  * @class Collision
  * Collision Detection Class
@@ -1019,6 +1045,10 @@ Collision.prototype.aabb = function (B0, B1) {
          (B0.bound.maxX >= B1.bound.minX) && 
          (B1.bound.maxY >= B0.bound.minY);
 }
+
+module.exports = Collision;
+
+},{"./Vector":6}],5:[function(require,module,exports){
 /**
  * @class Constraint
  * @param {*} parent 
@@ -1070,6 +1100,9 @@ Constraint.prototype.solve = function () {
   this.p1.x -= adjustX;
   this.p1.y -= adjustY;
 }
+
+module.exports = Constraint;
+},{}],6:[function(require,module,exports){
 /**
  * Vector.js v1.0.0
  * @author Anurag Hazra
@@ -1240,6 +1273,11 @@ Vector.prototype = {
     return this;
   },
 }
+
+module.exports = Vector;
+},{}],7:[function(require,module,exports){
+const Vector = require('./Vector');
+
 /**
  * @class Vertex
  * @param {*} parent 
@@ -1275,7 +1313,7 @@ Vertex.prototype.integrate = function () {
  * @method Vertex.boundary()
  * Handle Boundry Collision
  */
-this.Vertex.prototype.boundary = function () {
+Vertex.prototype.boundary = function () {
   let current = this.position,
       old = this.oldPosition;
   let vx = (current.x - old.x);
@@ -1296,3 +1334,7 @@ this.Vertex.prototype.boundary = function () {
     current.x = this.opt.canvas.width
   };
 }
+
+module.exports = Vertex;
+
+},{"./Vector":6}]},{},[1]);

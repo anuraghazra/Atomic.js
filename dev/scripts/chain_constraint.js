@@ -1,8 +1,8 @@
 // AtomicJS Setup
 const atomic = new Atomic('#c', window.innerWidth, 500, 0, 1, 10);
 let ctx = atomic.ctx;
-console.log(atomic.canvas)
 
+console.log(atomic)
 // setup init
 function setup() {
   let gapX = 0;
@@ -13,7 +13,7 @@ function setup() {
     });
     gapX += 100;
     atomic.vertices.push(
-      new Vertex(b, { x: 80 + gapX, y: 115 }, false, {
+      new Atomic.Vertex(b, { x: 80 + gapX, y: 115 }, false, {
         canvas: atomic.canvas,
         gravity: 1,
         friction: 1

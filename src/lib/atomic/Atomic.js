@@ -1,3 +1,8 @@
+const Body = require('./Body');
+const Vertex = require('./Vertex');
+const Constraint = require('./Constraint');
+const Collision = require('./Collision');
+
 /**
  * Atomic.js
  * @description Greatly Simple 2D Physics Engine
@@ -639,3 +644,8 @@ Atomic.prototype.showFps = function (option) {
 
   return this.fpsScope.fps;
 }
+
+Atomic.Constraint = Constraint;
+Atomic.Vertex = Vertex;
+
+module.exports = Atomic;

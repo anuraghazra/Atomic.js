@@ -1,3 +1,7 @@
+const Vector = require('./Vector');
+const Constraint = require('./Constraint');
+const Vertex = require('./Vertex');
+
 /**
  * @class Body
  * @constructor Body
@@ -40,7 +44,6 @@ function Body(opt, engine) {
 
 
   // VERTICES
-  console.log(this.engine.canvas)
   for (let n in opt.vertices) {
     let vertex = new Vertex(this, opt.vertices[n], this.static, {
       friction: this.engine.friction,
@@ -195,3 +198,5 @@ Body.prototype.drag = function () {
     this.engine.dragVertex = null;
   }
 }
+
+module.exports = Body;

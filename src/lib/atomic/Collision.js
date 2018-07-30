@@ -1,3 +1,5 @@
+const Vector = require('./Vector');
+
 /**
  * @class Collision
  * Collision Detection Class
@@ -181,3 +183,5 @@ Collision.prototype.aabb = function (B0, B1) {
          (B0.bound.maxX >= B1.bound.minX) && 
          (B1.bound.maxY >= B0.bound.minY);
 }
+
+module.exports = Collision;

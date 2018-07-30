@@ -1,3 +1,5 @@
+const Vector = require('./Vector');
+
 /**
  * @class Vertex
  * @param {*} parent 
@@ -33,7 +35,7 @@ Vertex.prototype.integrate = function () {
  * @method Vertex.boundary()
  * Handle Boundry Collision
  */
-this.Vertex.prototype.boundary = function () {
+Vertex.prototype.boundary = function () {
   let current = this.position,
       old = this.oldPosition;
   let vx = (current.x - old.x);
@@ -54,3 +56,5 @@ this.Vertex.prototype.boundary = function () {
     current.x = this.opt.canvas.width
   };
 }
+
+module.exports = Vertex;

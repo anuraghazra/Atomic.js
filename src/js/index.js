@@ -142,8 +142,8 @@ function animate() {
   // atomic.Render.indexOfBodies();
   // atomic.Render.centerOfMass();
   // atomic.Render.boundingBox();
-  // atomic.Render.information();
-  atomic.showFps();
+  atomic.Render.information();
+  atomic.showFps({x:atomic.canvas.width-100});
 
   atomic.drag();
 }

@@ -49,3 +49,5 @@ Constraint.prototype.solve = function () {
   this.p1.x -= adjustX;
   this.p1.y -= adjustY;
 }
+
+module.exports = Constraint;
