@@ -23,13 +23,8 @@ function Collision() {
  * @param {Body} B1
  */
 Collision.prototype.SAT = function (B0, B1) {
-  // no aabb overlap
-  if (
-    !(0 > Math.abs(B1.center.x - B0.center.x) - (B1.halfEx.x + B0.halfEx.x) &&
-      0 > Math.abs(B1.center.y - B0.center.y) - (B1.halfEx.y + B0.halfEx.y))
-  ) {
-    return false;
-  }
+  // no aabb overlap performance optimization
+  this.checkAABB(B1, B0);
   
   let minDistance = Number.MAX_SAFE_INTEGER;
   const n0 = B0.edges.length;
@@ -40,11 +35,7 @@ Collision.prototype.SAT = function (B0, B1) {
     // get edge
     let edge = i < n0 ? B0.edges[i] : B1.edges[i - n0];
 
-    // if(edge.edge == undefined) {
-    //   console.log(edge.edge)
-    //   // continue;
-    // }
-
+    
     // Calculate the perpendicular to this edge and normalize it
     this.testAxis.normal(edge.p0, edge.p1);
 
@@ -106,6 +97,15 @@ Collision.prototype.SAT = function (B0, B1) {
   return true;
 }
 
+Collision.prototype.checkAABB = function(B1, B0) {
+  if (
+    !(0 > Math.abs(B1.center.x - B0.center.x) - (B1.halfEx.x + B0.halfEx.x) &&
+      0 > Math.abs(B1.center.y - B0.center.y) - (B1.halfEx.y + B0.halfEx.y))
+  ) {
+    return false;
+  }
+}
+
 /**
  * Resolve Collision based on SAT Given Collision Information
  * @method Collision.resolve()
@@ -133,8 +133,8 @@ Collision.prototype.resolve = function (friction) {
 
   // calculate mass
   let m0 = this.vertex.parent.mass,
-    m1 = this.edge.parent.mass,
-    tm = m0 + m1;
+      m1 = this.edge.parent.mass,
+      tm = m0 + m1;
 
   m0 = m0 / tm;
   m1 = m1 / tm;

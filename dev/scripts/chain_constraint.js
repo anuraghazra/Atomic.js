@@ -1,6 +1,7 @@
 // AtomicJS Setup
 const atomic = new Atomic('#c', window.innerWidth, 500, 0, 1, 10);
 let ctx = atomic.ctx;
+console.log(atomic.canvas)
 
 // setup init
 function setup() {
@@ -11,7 +12,13 @@ function setup() {
       render: { fillStyle: 'white' }
     });
     gapX += 100;
-    atomic.vertices.push(new atomic.Vertex(b, { x: 80 + gapX, y: 115 }));
+    atomic.vertices.push(
+      new Vertex(b, { x: 80 + gapX, y: 115 }, false, {
+        canvas: atomic.canvas,
+        gravity: 1,
+        friction: 1
+      })
+    );
   }
   atomic.vertices.pop();
 }
@@ -41,6 +48,6 @@ function animate() {
   // atomic.Render.indexOfBodies();
   // atomic.Render.centerOfMass();
   // atomic.Render.boundingBox();
-  atomic.dragVertex && atomic.drag();
+  atomic.drag();
 }
 animate();

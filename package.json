@@ -1,0 +1,20 @@
+{
+  "name": "atomic.js",
+  "version": "1.0.0",
+  "description": "Greatly Simple 2D Physics Engine",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp",
+    "watch": "gulp watch"
+  },
+  "author": "Anurag Hazra <hazru.anurag@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.0"
+  },
+  "dependencies": {
+    "browserify": "^16.2.2"
+  }
+}

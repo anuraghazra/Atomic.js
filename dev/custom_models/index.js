@@ -21,7 +21,7 @@ function animate() {
   // atomic.Render.indexOfBodies();
   atomic.Render.pointIndex();
 
-  atomic.dragVertex && atomic.drag();
+  atomic.drag();
 
 }
 animate();
