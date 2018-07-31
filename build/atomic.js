@@ -3,7 +3,6 @@ const Atomic = require('./src/lib/atomic/Atomic');
 
 window.Atomic = Atomic;
 },{"./src/lib/atomic/Atomic":2}],2:[function(require,module,exports){
-const Vector = require('./Vector');
 const Body = require('./Body');
 const Vertex = require('./Vertex');
 const Constraint = require('./Constraint');
@@ -13,7 +12,7 @@ const Collision = require('./Collision');
  * Atomic.js
  * @description Greatly Simple 2D Physics Engine
  * @version v1.1.0
- * @author Anurag Hazra (hazru.anurag@gmail.com)
+ * @author Anurag Hazra <hazru.anurag@gmail.com>
  * @constructor new Atomic()
  */
 function Atomic(id, width, height, gravity, friction, simIteration) {
@@ -655,7 +654,7 @@ Atomic.Constraint = Constraint;
 Atomic.Vertex = Vertex;
 
 module.exports = Atomic;
-},{"./Body":3,"./Collision":4,"./Constraint":5,"./Vector":6,"./Vertex":7}],3:[function(require,module,exports){
+},{"./Body":3,"./Collision":4,"./Constraint":5,"./Vertex":7}],3:[function(require,module,exports){
 const Vector = require('./Vector');
 const Constraint = require('./Constraint');
 const Vertex = require('./Vertex');
@@ -702,7 +701,6 @@ function Body(opt, engine) {
 
 
   // VERTICES
-  console.log(this.engine.canvas)
   for (let n in opt.vertices) {
     let vertex = new Vertex(this, opt.vertices[n], this.static, {
       friction: this.engine.friction,

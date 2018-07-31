@@ -138,11 +138,11 @@ function animate() {
 
   // atomic.Render.dots();
   // atomic.Render.pointIndex();
-  // atomic.Render.lines();
+  atomic.Render.lines();
   // atomic.Render.indexOfBodies();
   // atomic.Render.centerOfMass();
-  // atomic.Render.boundingBox();
-  atomic.Render.information();
+  atomic.Render.boundingBox();
+  // atomic.Render.information();
   atomic.showFps({x:atomic.canvas.width-100});
 
   atomic.drag();

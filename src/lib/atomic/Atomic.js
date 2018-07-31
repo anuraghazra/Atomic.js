@@ -7,7 +7,7 @@ const Collision = require('./Collision');
  * Atomic.js
  * @description Greatly Simple 2D Physics Engine
  * @version v1.1.0
- * @author Anurag Hazra (hazru.anurag@gmail.com)
+ * @author Anurag Hazra <hazru.anurag@gmail.com>
  * @constructor new Atomic()
  */
 function Atomic(id, width, height, gravity, friction, simIteration) {
