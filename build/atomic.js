@@ -7,6 +7,7 @@ const Body = require('./Body');
 const Vertex = require('./Vertex');
 const Constraint = require('./Constraint');
 const Collision = require('./Collision');
+const Renderer = require('./Renderer');
 
 /**
  * Atomic.js
@@ -185,138 +186,7 @@ function Atomic(id, width, height, gravity, friction, simIteration) {
    *               > boundingBox()
    * @type Object
    */
-  this.Render = {
-    /**
-     * @method Atomic.Render.dots()
-     * @param {number} radius
-     * @param {string} color
-     */
-    dots: function (radius, color) {
-      let PI2 = Math.PI * 2;
-      let rad = radius || 4;
-      for (let i = 0, j = self.vertices.length; i < j; i++) {
-        let p = self.vertices[i].position;
-        if (!p.hidden) {
-          let fill = (p.color || color || 'black');
-          self.ctx.beginPath();
-          self.ctx.fillStyle = fill;
-          self.ctx.arc(p.x, p.y, rad, 0, PI2);
-          self.ctx.fill();
-          self.ctx.closePath();
-        }
-      }
-    },
-
-    /**
-     * @method Atomic.Render.pointIndex()
-     * @param {string} font
-     * @param {stirng} color
-     */
-    pointIndex: function (font, color) {
-      self.ctx.font = font || '10px Arial';
-      self.ctx.fillStyle = color || 'black';
-      for (let i = 0; i < self.vertices.length; i++) {
-        let p = self.vertices[i].position;
-        self.ctx.fillText(i, (p.x - 5), (p.y - 5));
-      }
-      self.ctx.fill();
-    },
-
-    /**
-     * @method Atomic.Render.lines()
-     * @param {number} linewidth
-     * @param {string} color
-     * @param {boolean} showHidden
-     */
-    lines: function (linewidth, color, showHidden) {
-      if (!showHidden) { showHidden = false; }
-      if (self.constraints.length > 0) {
-        self.ctx.beginPath();
-        self.ctx.strokeStyle = (color || 'black');
-        self.ctx.lineWidth = linewidth || 1;
-        for (let i = 0; i < self.constraints.length; i++) {
-          let c = self.constraints[i];
-          if (!c.hidden) {
-            self.ctx.moveTo(c.p0.x, c.p0.y);
-            self.ctx.lineTo(c.p1.x, c.p1.y);
-          }
-          if (showHidden === true) {
-            if (c.hidden) {
-              self.ctx.moveTo(c.p0.x, c.p0.y);
-              self.ctx.lineTo(c.p1.x, c.p1.y);
-            }
-          }
-        }
-        self.ctx.stroke();
-        self.ctx.closePath();
-      }
-    },
-
-    /**
-     * @method Atomic.Render.indexOfBodies()
-     * @param {string} font
-     * @param {string} color
-     */
-    indexOfBodies: function (font, color) {
-      self.ctx.save();
-      self.ctx.font = font || '10px Arial';
-      self.ctx.fillStyle = color || 'black';
-      for (let i = 0; i < self.bodies.length; i++) {
-        let p = self.bodies[i];
-        for (let j = 0; j < p.vertices.length; j++) {
-          let v = p.vertices[j].position;
-          self.ctx.fillText(i + '.' + j, (v.x - 10), (v.y - 10));
-        }
-      }
-      self.ctx.fill();
-      self.ctx.restore();
-    },
-
-    /**
-     * @method Atomic.Render.renderCenterOfMass()
-     * @param {string} color
-     */
-    centerOfMass: function (color) {
-      self.ctx.fillStyle = color || 'black';
-      self.ctx.beginPath();
-      for (let i = 0; i < self.bodies.length; i++) {
-        let b = self.bodies[i];
-        self.ctx.fillRect(b.center.x - 2.5, b.center.y - 2.5, 5, 5);
-      }
-      self.ctx.fill();
-      self.ctx.closePath();
-    },
-
-    /**
-     * @method Atomic.Render.boundingBox()
-     * @param {string} color
-     */
-    boundingBox: function (color) {
-      self.ctx.fillStyle = color || 'rgba(0,0,0,0.2)';
-      self.ctx.beginPath();
-      for (let i = 0; i < self.bodies.length; i++) {
-        let b = self.bodies[i];
-        self.ctx.fillRect(b.center.x - b.halfEx.x, b.center.y - b.halfEx.y,
-          b.halfEx.x + b.halfEx.x, b.halfEx.y + b.halfEx.y);
-      }
-      self.ctx.fill();
-      self.ctx.closePath();
-    },
-
-    /**
-     * @method Atomic.Render.information()
-     */
-    information: function () {
-      let stat = 'Objects : ' + self.bodies.length;
-      let stat2 = 'Vertices : ' + self.vertices.length;
-      let stat3 = 'Constraints : ' + self.constraints.length;
-      self.ctx.fillStyle = 'black';
-      self.ctx.font = '14px Arial'
-      self.ctx.fillText(stat, 10, 20);
-      self.ctx.fillText(stat2, 10, 40);
-      self.ctx.fillText(stat3, 10, 60);
-    }
-  }
+  this.Render = Renderer.create(this);
 }
 
 
@@ -654,7 +524,7 @@ Atomic.Constraint = Constraint;
 Atomic.Vertex = Vertex;
 
 module.exports = Atomic;
-},{"./Body":3,"./Collision":4,"./Constraint":5,"./Vertex":7}],3:[function(require,module,exports){
+},{"./Body":3,"./Collision":4,"./Constraint":5,"./Renderer":6,"./Vertex":8}],3:[function(require,module,exports){
 const Vector = require('./Vector');
 const Constraint = require('./Constraint');
 const Vertex = require('./Vertex');
@@ -857,7 +727,7 @@ Body.prototype.drag = function () {
 }
 
 module.exports = Body;
-},{"./Constraint":5,"./Vector":6,"./Vertex":7}],4:[function(require,module,exports){
+},{"./Constraint":5,"./Vector":7,"./Vertex":8}],4:[function(require,module,exports){
 const Vector = require('./Vector');
 
 /**
@@ -1028,13 +898,15 @@ Collision.prototype.resolve = function (friction) {
   let rt = this.relTanVel.set(this.tangent.x * relTv, this.tangent.y * relTv);
 
   // // apply tangent friction
-  vo.x += rt.x * friction * m1;
-  vo.y += rt.y * friction * m1;
+  let groundf = 0.95;
+  vo.x += rt.x * groundf * m1;
+  vo.y += rt.y * groundf * m1;
 
-  o0.x -= rt.x * (1 - t) * friction * lambda * m0;
-  o0.y -= rt.y * (1 - t) * friction * lambda * m0;
-  o1.x -= rt.x * t * friction * lambda * m0;
-  o1.y -= rt.y * t * friction * lambda * m0;
+  o0.x -= rt.x * (1 - t) * groundf * lambda * m0;
+  o0.y -= rt.y * (1 - t) * groundf * lambda * m0;
+  o1.x -= rt.x * t * groundf * lambda * m0;
+  o1.y -= rt.y * t * groundf * lambda * m0;
+
 }
 
 Collision.prototype.aabb = function (B0, B1) {
@@ -1046,7 +918,7 @@ Collision.prototype.aabb = function (B0, B1) {
 
 module.exports = Collision;
 
-},{"./Vector":6}],5:[function(require,module,exports){
+},{"./Vector":7}],5:[function(require,module,exports){
 /**
  * @class Constraint
  * @param {*} parent 
@@ -1101,6 +973,144 @@ Constraint.prototype.solve = function () {
 
 module.exports = Constraint;
 },{}],6:[function(require,module,exports){
+module.exports = {
+  self: null,
+  create: function (slf) {
+    this.self = slf;
+    return this;
+  },
+  /**
+   * @method Atomic.Render.dots()
+   * @param {number} radius
+   * @param {string} color
+   */
+  dots: function (radius, color) {
+    let PI2 = Math.PI * 2;
+    let rad = radius || 4;
+    for (let i = 0, j = this.self.vertices.length; i < j; i++) {
+      let p = this.self.vertices[i].position;
+      if (!p.hidden) {
+        let fill = (p.color || color || 'black');
+        this.self.ctx.beginPath();
+        this.self.ctx.fillStyle = fill;
+        this.self.ctx.arc(p.x, p.y, rad, 0, PI2);
+        this.self.ctx.fill();
+        this.self.ctx.closePath();
+      }
+    }
+  },
+
+  /**
+   * @method Atomic.Render.pointIndex()
+   * @param {string} font
+   * @param {stirng} color
+   */
+  pointIndex: function (font, color) {
+    this.self.ctx.font = font || '10px Arial';
+    this.self.ctx.fillStyle = color || 'black';
+    for (let i = 0; i < this.self.vertices.length; i++) {
+      let p = this.self.vertices[i].position;
+      this.self.ctx.fillText(i, (p.x - 5), (p.y - 5));
+    }
+    this.self.ctx.fill();
+  },
+
+  /**
+   * @method Atomic.Render.lines()
+   * @param {number} linewidth
+   * @param {string} color
+   * @param {boolean} showHidden
+   */
+  lines: function (linewidth, color, showHidden) {
+    if (!showHidden) { showHidden = false; }
+    if (this.self.constraints.length > 0) {
+      this.self.ctx.beginPath();
+      this.self.ctx.strokeStyle = (color || 'black');
+      this.self.ctx.lineWidth = linewidth || 1;
+      for (let i = 0; i < this.self.constraints.length; i++) {
+        let c = this.self.constraints[i];
+        if (!c.hidden) {
+          this.self.ctx.moveTo(c.p0.x, c.p0.y);
+          this.self.ctx.lineTo(c.p1.x, c.p1.y);
+        }
+        if (showHidden === true) {
+          if (c.hidden) {
+            this.self.ctx.moveTo(c.p0.x, c.p0.y);
+            this.self.ctx.lineTo(c.p1.x, c.p1.y);
+          }
+        }
+      }
+      this.self.ctx.stroke();
+      this.self.ctx.closePath();
+    }
+  },
+
+  /**
+   * @method Atomic.Render.indexOfBodies()
+   * @param {string} font
+   * @param {string} color
+   */
+  indexOfBodies: function (font, color) {
+    this.self.ctx.save();
+    this.self.ctx.font = font || '10px Arial';
+    this.self.ctx.fillStyle = color || 'black';
+    for (let i = 0; i < this.self.bodies.length; i++) {
+      let p = this.self.bodies[i];
+      for (let j = 0; j < p.vertices.length; j++) {
+        let v = p.vertices[j].position;
+        this.self.ctx.fillText(i + '.' + j, (v.x - 10), (v.y - 10));
+      }
+    }
+    this.self.ctx.fill();
+    this.self.ctx.restore();
+  },
+
+  /**
+   * @method Atomic.Render.renderCenterOfMass()
+   * @param {string} color
+   */
+  centerOfMass: function (color) {
+    this.self.ctx.fillStyle = color || 'black';
+    this.self.ctx.beginPath();
+    for (let i = 0; i < this.self.bodies.length; i++) {
+      let b = this.self.bodies[i];
+      this.self.ctx.fillRect(b.center.x - 2.5, b.center.y - 2.5, 5, 5);
+    }
+    this.self.ctx.fill();
+    this.self.ctx.closePath();
+  },
+
+  /**
+   * @method Atomic.Render.boundingBox()
+   * @param {string} color
+   */
+  boundingBox: function (color) {
+    this.self.ctx.fillStyle = color || 'rgba(0,0,0,0.2)';
+    this.self.ctx.beginPath();
+    for (let i = 0; i < this.self.bodies.length; i++) {
+      let b = this.self.bodies[i];
+      this.self.ctx.fillRect(b.center.x - b.halfEx.x, b.center.y - b.halfEx.y,
+        b.halfEx.x + b.halfEx.x, b.halfEx.y + b.halfEx.y);
+    }
+    this.self.ctx.fill();
+    this.self.ctx.closePath();
+  },
+
+  /**
+   * @method Atomic.Render.information()
+   */
+  information: function () {
+    let stat = 'Objects : ' + this.self.bodies.length;
+    let stat2 = 'Vertices : ' + this.self.vertices.length;
+    let stat3 = 'Constraints : ' + this.self.constraints.length;
+    this.self.ctx.fillStyle = 'black';
+    this.self.ctx.font = '14px Arial'
+    this.self.ctx.fillText(stat, 10, 20);
+    this.self.ctx.fillText(stat2, 10, 40);
+    this.self.ctx.fillText(stat3, 10, 60);
+  }
+}
+},{}],7:[function(require,module,exports){
 /**
  * Vector.js v1.0.0
  * @author Anurag Hazra
@@ -1273,7 +1283,7 @@ Vector.prototype = {
 }
 
 module.exports = Vector;
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 const Vector = require('./Vector');
 
 /**
@@ -1296,14 +1306,14 @@ function Vertex(parent, vertex, pinned, opt) {
  */
 Vertex.prototype.integrate = function () {
   if (!this.pinned) {
-    let current = this.position;
-    let old = this.oldPosition;
-    let x = current.x;
-    let y = current.y;
+    let pos = this.position;
+    let oldpos = this.oldPosition;
+    let x = pos.x;
+    let y = pos.y;
 
-    current.x += (current.x - old.x) * this.opt.friction;
-    current.y += (current.y - old.y) * this.opt.friction + this.opt.gravity;
-    old.set(x, y);
+    pos.x += (pos.x - oldpos.x) * this.opt.friction;
+    pos.y += (pos.y - oldpos.y) * this.opt.friction + this.opt.gravity;
+    oldpos.set(x, y);
   }
 };
 
@@ -1312,27 +1322,27 @@ Vertex.prototype.integrate = function () {
  * Handle Boundry Collision
  */
 Vertex.prototype.boundary = function () {
-  let current = this.position,
+  let pos = this.position,
       old = this.oldPosition;
-  let vx = (current.x - old.x);
-  let vy = (current.y - old.y);
+  let vx = (pos.x - old.x);
+  let vy = (pos.y - old.y);
 
   // Y
-  if (current.y < 0) {
-    current.y = 0;
-  } else if (current.y > this.opt.canvas.height) {
-    current.x -= (current.y - this.opt.canvas.height) * vx * this.opt.groundFriction;
-    current.y = this.opt.canvas.height;
+  if (pos.y < 0) {
+    pos.y = 0;
+  } else if (pos.y > this.opt.canvas.height) {
+    pos.x -= (pos.y - this.opt.canvas.height) * vx * this.opt.groundFriction;
+    pos.y = this.opt.canvas.height;
   }
 
   // X
-  if (current.x < 0) {
-    current.x = 0
-  } else if (current.x > this.opt.canvas.width) {
-    current.x = this.opt.canvas.width
+  if (pos.x < 0) {
+    pos.x = 0
+  } else if (pos.x > this.opt.canvas.width) {
+    pos.x = this.opt.canvas.width
   };
 }
 
 module.exports = Vertex;
 
-},{"./Vector":6}]},{},[1]);
+},{"./Vector":7}]},{},[1]);

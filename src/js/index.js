@@ -1,10 +1,11 @@
 // AtomicJS Setup
-const atomic = new Atomic('#c', window.innerWidth, 450, 1, 1, 20);
+const atomic = new Atomic('#c', window.innerWidth, 450, 1, 1, 50);
 let ctx = atomic.ctx;
 
 // setup init
 function init() {
-  for (let i = 0; i < 150; i++) {
+
+  for (let i = 0; i < 100; i++) {
     let randCol = 'hsl(' + Math.random() * 360 + 'deg, 50%,50%)';
 
     atomic.Poly.box(200, Math.random() * 200, 30, 30, {
@@ -37,14 +38,17 @@ function init() {
 init();
 
 // Click To Add Box
-// atomic.canvas.addEventListener('click', function (e) {
-//   let randCol = 'hsl(' + Math.random() * 360 + 'deg, 50%,50%)';
-//   atomic.Poly.box(e.offsetX - 20, e.offsetY - 20, 40, 40, 1, {
-//     render: {
-//       fillStyle: randCol
-//     }
-//   })
-// });
+atomic.canvas.addEventListener('click', function (e) {
+  let randCol = 'hsl(' + Math.random() * 360 + 'deg, 50%,50%)';
+  // for (let i = 0; i < 1; i++) {
+    atomic.Poly.box(e.offsetX - 15, e.offsetY - 15, 30, 30, {
+      mass : 1,
+      render: {
+        fillStyle: randCol
+      }
+    })
+  // }
+});
 
 
 
@@ -138,11 +142,11 @@ function animate() {
 
   // atomic.Render.dots();
   // atomic.Render.pointIndex();
-  atomic.Render.lines();
+  // atomic.Render.lines();
   // atomic.Render.indexOfBodies();
   // atomic.Render.centerOfMass();
-  atomic.Render.boundingBox();
-  // atomic.Render.information();
+  // atomic.Render.boundingBox();
+  atomic.Render.information();
   atomic.showFps({x:atomic.canvas.width-100});
 
   atomic.drag();

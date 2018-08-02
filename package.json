@@ -6,7 +6,8 @@
   "scripts": {
     "gulpbuild": "gulp",
     "gulpwatch": "gulp watch",
-    "build" : "browserify app.js -o ./build/atomic.js"
+    "build": "browserify app.js -o ./build/atomic.js",
+    "build-watch": "watchify app.js -o ./build/atomic.js"
   },
   "author": "Anurag Hazra <hazru.anurag@gmail.com>",
   "license": "MIT",
@@ -16,6 +17,7 @@
     "gulp-uglify": "^3.0.0"
   },
   "dependencies": {
-    "browserify": "^16.2.2"
+    "browserify": "^16.2.2",
+    "watchify": "^3.11.0"
   }
 }

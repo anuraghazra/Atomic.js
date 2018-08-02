@@ -168,13 +168,15 @@ Collision.prototype.resolve = function (friction) {
   let rt = this.relTanVel.set(this.tangent.x * relTv, this.tangent.y * relTv);
 
   // // apply tangent friction
-  vo.x += rt.x * friction * m1;
-  vo.y += rt.y * friction * m1;
+  let groundf = 0.95;
+  vo.x += rt.x * groundf * m1;
+  vo.y += rt.y * groundf * m1;
 
-  o0.x -= rt.x * (1 - t) * friction * lambda * m0;
-  o0.y -= rt.y * (1 - t) * friction * lambda * m0;
-  o1.x -= rt.x * t * friction * lambda * m0;
-  o1.y -= rt.y * t * friction * lambda * m0;
+  o0.x -= rt.x * (1 - t) * groundf * lambda * m0;
+  o0.y -= rt.y * (1 - t) * groundf * lambda * m0;
+  o1.x -= rt.x * t * groundf * lambda * m0;
+  o1.y -= rt.y * t * groundf * lambda * m0;
+
 }
 
 Collision.prototype.aabb = function (B0, B1) {

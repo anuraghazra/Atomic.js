@@ -2,6 +2,7 @@ const Body = require('./Body');
 const Vertex = require('./Vertex');
 const Constraint = require('./Constraint');
 const Collision = require('./Collision');
+const Renderer = require('./Renderer');
 
 /**
  * Atomic.js
@@ -180,138 +181,7 @@ function Atomic(id, width, height, gravity, friction, simIteration) {
    *               > boundingBox()
    * @type Object
    */
-  this.Render = {
-    /**
-     * @method Atomic.Render.dots()
-     * @param {number} radius
-     * @param {string} color
-     */
-    dots: function (radius, color) {
-      let PI2 = Math.PI * 2;
-      let rad = radius || 4;
-      for (let i = 0, j = self.vertices.length; i < j; i++) {
-        let p = self.vertices[i].position;
-        if (!p.hidden) {
-          let fill = (p.color || color || 'black');
-          self.ctx.beginPath();
-          self.ctx.fillStyle = fill;
-          self.ctx.arc(p.x, p.y, rad, 0, PI2);
-          self.ctx.fill();
-          self.ctx.closePath();
-        }
-      }
-    },
-
-    /**
-     * @method Atomic.Render.pointIndex()
-     * @param {string} font
-     * @param {stirng} color
-     */
-    pointIndex: function (font, color) {
-      self.ctx.font = font || '10px Arial';
-      self.ctx.fillStyle = color || 'black';
-      for (let i = 0; i < self.vertices.length; i++) {
-        let p = self.vertices[i].position;
-        self.ctx.fillText(i, (p.x - 5), (p.y - 5));
-      }
-      self.ctx.fill();
-    },
-
-    /**
-     * @method Atomic.Render.lines()
-     * @param {number} linewidth
-     * @param {string} color
-     * @param {boolean} showHidden
-     */
-    lines: function (linewidth, color, showHidden) {
-      if (!showHidden) { showHidden = false; }
-      if (self.constraints.length > 0) {
-        self.ctx.beginPath();
-        self.ctx.strokeStyle = (color || 'black');
-        self.ctx.lineWidth = linewidth || 1;
-        for (let i = 0; i < self.constraints.length; i++) {
-          let c = self.constraints[i];
-          if (!c.hidden) {
-            self.ctx.moveTo(c.p0.x, c.p0.y);
-            self.ctx.lineTo(c.p1.x, c.p1.y);
-          }
-          if (showHidden === true) {
-            if (c.hidden) {
-              self.ctx.moveTo(c.p0.x, c.p0.y);
-              self.ctx.lineTo(c.p1.x, c.p1.y);
-            }
-          }
-        }
-        self.ctx.stroke();
-        self.ctx.closePath();
-      }
-    },
-
-    /**
-     * @method Atomic.Render.indexOfBodies()
-     * @param {string} font
-     * @param {string} color
-     */
-    indexOfBodies: function (font, color) {
-      self.ctx.save();
-      self.ctx.font = font || '10px Arial';
-      self.ctx.fillStyle = color || 'black';
-      for (let i = 0; i < self.bodies.length; i++) {
-        let p = self.bodies[i];
-        for (let j = 0; j < p.vertices.length; j++) {
-          let v = p.vertices[j].position;
-          self.ctx.fillText(i + '.' + j, (v.x - 10), (v.y - 10));
-        }
-      }
-      self.ctx.fill();
-      self.ctx.restore();
-    },
-
-    /**
-     * @method Atomic.Render.renderCenterOfMass()
-     * @param {string} color
-     */
-    centerOfMass: function (color) {
-      self.ctx.fillStyle = color || 'black';
-      self.ctx.beginPath();
-      for (let i = 0; i < self.bodies.length; i++) {
-        let b = self.bodies[i];
-        self.ctx.fillRect(b.center.x - 2.5, b.center.y - 2.5, 5, 5);
-      }
-      self.ctx.fill();
-      self.ctx.closePath();
-    },
-
-    /**
-     * @method Atomic.Render.boundingBox()
-     * @param {string} color
-     */
-    boundingBox: function (color) {
-      self.ctx.fillStyle = color || 'rgba(0,0,0,0.2)';
-      self.ctx.beginPath();
-      for (let i = 0; i < self.bodies.length; i++) {
-        let b = self.bodies[i];
-        self.ctx.fillRect(b.center.x - b.halfEx.x, b.center.y - b.halfEx.y,
-          b.halfEx.x + b.halfEx.x, b.halfEx.y + b.halfEx.y);
-      }
-      self.ctx.fill();
-      self.ctx.closePath();
-    },
-
-    /**
-     * @method Atomic.Render.information()
-     */
-    information: function () {
-      let stat = 'Objects : ' + self.bodies.length;
-      let stat2 = 'Vertices : ' + self.vertices.length;
-      let stat3 = 'Constraints : ' + self.constraints.length;
-      self.ctx.fillStyle = 'black';
-      self.ctx.font = '14px Arial'
-      self.ctx.fillText(stat, 10, 20);
-      self.ctx.fillText(stat2, 10, 40);
-      self.ctx.fillText(stat3, 10, 60);
-    }
-  }
+  this.Render = Renderer.create(this);
 }
 
 

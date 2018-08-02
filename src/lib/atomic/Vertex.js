@@ -20,14 +20,14 @@ function Vertex(parent, vertex, pinned, opt) {
  */
 Vertex.prototype.integrate = function () {
   if (!this.pinned) {
-    let current = this.position;
-    let old = this.oldPosition;
-    let x = current.x;
-    let y = current.y;
+    let pos = this.position;
+    let oldpos = this.oldPosition;
+    let x = pos.x;
+    let y = pos.y;
 
-    current.x += (current.x - old.x) * this.opt.friction;
-    current.y += (current.y - old.y) * this.opt.friction + this.opt.gravity;
-    old.set(x, y);
+    pos.x += (pos.x - oldpos.x) * this.opt.friction;
+    pos.y += (pos.y - oldpos.y) * this.opt.friction + this.opt.gravity;
+    oldpos.set(x, y);
   }
 };
 
@@ -36,24 +36,24 @@ Vertex.prototype.integrate = function () {
  * Handle Boundry Collision
  */
 Vertex.prototype.boundary = function () {
-  let current = this.position,
+  let pos = this.position,
       old = this.oldPosition;
-  let vx = (current.x - old.x);
-  let vy = (current.y - old.y);
+  let vx = (pos.x - old.x);
+  let vy = (pos.y - old.y);
 
   // Y
-  if (current.y < 0) {
-    current.y = 0;
-  } else if (current.y > this.opt.canvas.height) {
-    current.x -= (current.y - this.opt.canvas.height) * vx * this.opt.groundFriction;
-    current.y = this.opt.canvas.height;
+  if (pos.y < 0) {
+    pos.y = 0;
+  } else if (pos.y > this.opt.canvas.height) {
+    pos.x -= (pos.y - this.opt.canvas.height) * vx * this.opt.groundFriction;
+    pos.y = this.opt.canvas.height;
   }
 
   // X
-  if (current.x < 0) {
-    current.x = 0
-  } else if (current.x > this.opt.canvas.width) {
-    current.x = this.opt.canvas.width
+  if (pos.x < 0) {
+    pos.x = 0
+  } else if (pos.x > this.opt.canvas.width) {
+    pos.x = this.opt.canvas.width
   };
 }
 

@@ -64,7 +64,8 @@ function animate() {
   atomic.Render.lines();
   // atomic.Render.indexOfBodies();
   // atomic.Render.pointIndex();
-  atomic.Render.boundingBox();
+  // atomic.Render.centerOfMass();
+  // atomic.Render.boundingBox();
 
   atomic.showFps();
   atomic.drag();
