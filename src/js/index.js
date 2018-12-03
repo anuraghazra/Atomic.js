@@ -1,5 +1,5 @@
 // AtomicJS Setup
-const atomic = new Atomic('#c', window.innerWidth, 450, 1, 1, 50);
+const atomic = new Atomic('#c', window.innerWidth, window.innerHeight-30, 0.8, 1, 10);
 let ctx = atomic.ctx;
 
 // setup init
