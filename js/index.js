@@ -1,5 +1,5 @@
 // AtomicJS Setup
-const atomic = new Atomic('#c', window.innerWidth, window.innerHeight-30, 0.8, 1, 10);
+const atomic = new Atomic('#c', window.innerWidth, 450, 1, 1, 50);
 let ctx = atomic.ctx;
 
 // setup init
@@ -8,7 +8,7 @@ function init() {
   for (let i = 0; i < 100; i++) {
     let randCol = 'hsl(' + Math.random() * 360 + 'deg, 50%,50%)';
 
-    atomic.Poly.box(200, Math.random() * 200, 30, 30, {
+    atomic.Poly.box(Math.random() * window.innerWidth, Math.random() * window.innerHeight, 30, 30, {
       render: { fillStyle: randCol }
     });
 

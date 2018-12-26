@@ -5,27 +5,47 @@
 
 ## Getting Started
 
+## HTML
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Atomic.js</title>
+</head>
+<body>
+  <canvas id="c"></canvas>
+
+  <!-- Atomic.js -->
+  <script src="./dist/atomic.build.js"></script>
+  <!-- index.js -->
+  <script src="./index.js"></script>
+</body>
+</html>
+```
+
+## javascript
 ```javascript
 
 // AtomicJS Setup
-const atomic = new Atomic('#c', window.innerWidth, 450, 1, 1, 50);
+// (canvasid, width, height, gravity, friction, simIteration)
+const atomic = new Atomic('#c', 500, 500, 1, 1, 50);
 
 // setup init
 function init() {
-  for (let i = 0; i < 100; i++) {
-    let randCol = 'hsl(' + Math.random() * 360 + 'deg, 50%,50%)';
-    atomic.Poly.box(200, Math.random() * 200, 30, 30, {
-      render: { fillStyle: randCol }
+  for (let i = 0; i < 50; i++) {
+    let color = 'hsl(' + Math.random() * 360 + 'deg, 50%,50%)';
+    atomic.Poly.box(200, 200, 30, 30, {
+      render: { fillStyle: color }
     });
   }
 
-  atomic.Poly.triangle(atomic.canvas.width - 550, 300, 100, 100, {
+  atomic.Poly.triangle(100, 300, 100, 100, {
     static: true,
     render: {
       fillStyle: 'green',
     }
   });
-  atomic.Poly.triangle(atomic.canvas.width - 400, 300, 100, 100, {
+  atomic.Poly.triangle(250, 300, 100, 100, {
     static: true,
     render: {
       fillStyle: 'red'
@@ -60,3 +80,7 @@ function animate() {
 }
 animate();
 ```
+
+-----------
+
+Made with :heart: And Javascript

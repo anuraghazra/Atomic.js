@@ -2,22 +2,15 @@
   "name": "atomic.js",
   "version": "1.0.0",
   "description": "Greatly Simple 2D Physics Engine",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "gulpbuild": "gulp",
-    "gulpwatch": "gulp watch",
-    "build": "browserify app.js -o ./build/atomic.js",
-    "build-watch": "watchify app.js -o ./build/atomic.js"
+    "build": "webpack",
+    "watch": "webpack -w"
   },
   "author": "Anurag Hazra <hazru.anurag@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-uglify": "^3.0.0"
-  },
-  "dependencies": {
-    "browserify": "^16.2.2",
-    "watchify": "^3.11.0"
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2"
   }
 }

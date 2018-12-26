@@ -1,8 +1,12 @@
-const Body = require('./Body');
-const Vertex = require('./Vertex');
-const Constraint = require('./Constraint');
-const Collision = require('./Collision');
 const Renderer = require('./Renderer');
+const Body = require('./Body');
+const Collision = require('./Collision');
+const Constraint = require('./Constraint');
+const Vertex = require('./Vertex');
+
+Atomic.Body = Body;
+Atomic.Vertex = Vertex;
+Atomic.Constraint = Constraint;
 
 /**
  * Atomic.js
@@ -10,6 +14,12 @@ const Renderer = require('./Renderer');
  * @version v1.1.0
  * @author Anurag Hazra <hazru.anurag@gmail.com>
  * @constructor new Atomic()
+ * @param {*} id 
+ * @param {*} width 
+ * @param {*} height 
+ * @param {*} gravity 
+ * @param {*} friction 
+ * @param {*} simIteration 
  */
 function Atomic(id, width, height, gravity, friction, simIteration) {
   this.canvas = document.querySelector(id);
@@ -198,7 +208,7 @@ function Atomic(id, width, height, gravity, friction, simIteration) {
  * @param {boolean} pinned
  */
 Atomic.prototype.addVertex = function (x, y, pinned) {
-  let vertex = new Vertex(this, { x: x, y: y }, pinned, {
+  let vertex = new Atomic.Vertex(this, { x: x, y: y }, pinned, {
     friction: this.friction,
     gravity: this.gravity,
     canvas: this.canvas,
@@ -213,7 +223,7 @@ Atomic.prototype.addVertex = function (x, y, pinned) {
  * @param {boolean} edge
  */
 Atomic.prototype.addConstraint = function (i, j, edge) {
-  let cons = new Constraint(this, this.vertices[i], this.vertices[j], edge);
+  let cons = new Atomic.Constraint(this, this.vertices[i], this.vertices[j], edge);
   this.constraints.push(cons);
 }
 
@@ -258,7 +268,7 @@ Atomic.prototype.clear = function (color) {
 Atomic.prototype.createPoly = function (vert, cons, opt) {
   if (opt === undefined) opt = {};
 
-  let b = new Body({
+  let b = new Atomic.Body({
     mass: (arguments.length === 2) ? cons.mass : opt.mass,
     render: (arguments.length === 2) ? cons.render : opt.render,
     vertices: vert,
@@ -269,7 +279,7 @@ Atomic.prototype.createPoly = function (vert, cons, opt) {
     // join outer vertex
     for (let i = 0; i < b.vertices.length; i++) {
       let bvert = b.vertices;
-      let cons = new Constraint(b, b.vertices[i], b.vertices[(i + 1) % bvert.length], true);
+      let cons = new Atomic.Constraint(b, b.vertices[i], b.vertices[(i + 1) % bvert.length], true);
       b.edges.push(cons);
       this.constraints.push(cons);
       b.eCount++;
@@ -277,7 +287,7 @@ Atomic.prototype.createPoly = function (vert, cons, opt) {
 
     // add center vertex
     b.calculateCenter();
-    let centerVertex = new Vertex(b, b.center, false, {
+    let centerVertex = new Atomic.Vertex(b, b.center, false, {
       friction: this.friction,
       gravity: this.gravity,
       canvas: this.canvas,
@@ -292,7 +302,7 @@ Atomic.prototype.createPoly = function (vert, cons, opt) {
 
     // join to center vertex
     for (let i = 0; i < b.vertices.length - 1; i++) {
-      let cons = new Constraint(b, b.vertices[i], b.vertices[b.vertices.length - 1], false);
+      let cons = new Atomic.Constraint(b, b.vertices[i], b.vertices[b.vertices.length - 1], false);
       b.edges.push(cons);
       b.eCount++;
       this.constraints.push(cons)
@@ -514,8 +524,5 @@ Atomic.prototype.showFps = function (option) {
 
   return this.fpsScope.fps;
 }
-
-Atomic.Constraint = Constraint;
-Atomic.Vertex = Vertex;
 
 module.exports = Atomic;
