@@ -1,2 +1,1 @@
-const Atomic = require('./Atomic');
-global.Atomic = Atomic;
+module.exports = require('./Atomic');

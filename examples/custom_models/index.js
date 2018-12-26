@@ -1,4 +1,4 @@
-const atomic = new Atomic('#c', window.innerWidth, 350, 0, 1, 20);
+const atomic = new Atomic('#c', window.innerWidth, 350, 1, 1, 20);
 
 atomic.createPoly('100,100 200,100 200,200 100,250 50,200', {
   mass: 1,

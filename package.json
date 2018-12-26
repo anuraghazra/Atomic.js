@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "build": "webpack",
-    "watch": "webpack -w"
+    "watch": "webpack -w",
+    "devserver" : "webpack-dev-server"
   },
   "author": "Anurag Hazra <hazru.anurag@gmail.com>",
   "license": "MIT",

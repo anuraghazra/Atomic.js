@@ -35,7 +35,6 @@ function Body(opt, engine) {
     let arr = opt.vertices.split(' ');
     let svgVertices = {};
     for (let i = 0; i < arr.length; i++) {
-      // console.log(arr[i].split(','))
       svgVertices[i] = { x: Number(arr[i].split(',')[0]), y: Number(arr[i].split(',')[1]) }
     }
     // opt.svgVertices = arr;
@@ -100,10 +99,10 @@ function Body(opt, engine) {
  * calculateCenter and bounding box
  */
 Body.prototype.calculateCenter = function () {
-  let minX = 99999.0,
-      minY = 99999.0,
-      maxX = -99999.0,
-      maxY = -99999.0;
+  let minX = Number.MAX_SAFE_INTEGER,
+      minY = Number.MAX_SAFE_INTEGER,
+      maxX = -Number.MAX_SAFE_INTEGER,
+      maxY = -Number.MAX_SAFE_INTEGER;
 
   for (let i = 0; i < this.vertices.length; i++) {
     let p = this.positions[i];

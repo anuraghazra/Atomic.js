@@ -11,7 +11,7 @@ Atomic.Constraint = Constraint;
 /**
  * Atomic.js
  * @description Greatly Simple 2D Physics Engine
- * @version v1.1.0
+ * @version v1.2.0
  * @author Anurag Hazra <hazru.anurag@gmail.com>
  * @constructor new Atomic()
  * @param {*} id 
