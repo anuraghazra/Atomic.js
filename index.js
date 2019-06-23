@@ -121,11 +121,11 @@ function showDrawing() {
 }
 
 
-atomic.simluationConfig({
-  iterations : 10,
-  velocityIteration : 5,
-  constraintsIteration : 5
-})
+// atomic.simluationConfig({
+//   iterations : 10,
+//   velocityIteration : 5,
+//   constraintsIteration : 5
+// })
 
 // animate loop
 function animate() {
