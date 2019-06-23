@@ -10,8 +10,15 @@
       margin: 0;
       padding: 0;
     }
+
     canvas {
       outline: 1px solid black;
+    }
+
+    label {
+      line-height: 30px;
+      margin-left: 10px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
   </style>
 
@@ -20,10 +27,14 @@
 <body>
   <canvas id="c"></canvas>
 
+  <label>
+    <span>Toggle Gravity</span>
+    <input type="checkbox" id="gravity">
+  </label>
 
   <!-- scripts -->
   <script src="./dist/atomic.build.js"></script>
-  <script src="./js/index.js"></script>
+  <script src="./index.js"></script>
 
 </body>
 

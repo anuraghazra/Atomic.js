@@ -8,10 +8,12 @@ module.exports = {
     filename : 'atomic.build.js',
     library: 'Atomic',
     libraryTarget: 'umd',
-    // auxiliaryComment: 'module'
+    globalObject: 'this',
+    // auxiliaryComment: 'module',
+    // umdNamedDefine: true,
   },
-  // mode: 'development',
-  mode: 'production',
+  mode: 'development',
+  // mode: 'production',
   devServer: {
     contentBase: path.join(__dirname),
     compress: true,
