@@ -1,6 +1,6 @@
 const atomic = new Atomic('#c', window.innerWidth, 600, 1, 1, 80);
 
-atomic.Poly.box(100, 30, 150, 40, {
+atomic.Poly.box(100, 30, 150, 50, {
   mass : 10,
   render: { fillStyle: 'white' }
 });
