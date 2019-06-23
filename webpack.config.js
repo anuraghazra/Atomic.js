@@ -12,8 +12,8 @@ module.exports = {
     // auxiliaryComment: 'module',
     // umdNamedDefine: true,
   },
-  mode: 'development',
-  // mode: 'production',
+  // mode: 'development',
+  mode: 'production',
   devServer: {
     contentBase: path.join(__dirname),
     compress: true,
