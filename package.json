@@ -11,7 +11,7 @@
   "author": "Anurag Hazra <hazru.anurag@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.5"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }
